@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+
+psycopg2-binary
+
+SQLAlchemy
+
+python-dotenv
+
+requests
+tldextract
+beautifulsoup4
+
+telethon

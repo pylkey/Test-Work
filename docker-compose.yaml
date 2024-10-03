@@ -1,0 +1,78 @@
+version: '3.7'
+
+# Specify the services for our docker compose setup
+services:
+
+  # api:
+  #   build:
+  #     # path to the directory containing the Dockerfile
+  #     context: .
+
+  #   # Specify the image name
+  #   image: products_api
+
+  #   # this volume is used to map the files and folders on the host to the container
+  #   # so if we change code on the host, code in the docker container will also be changed
+  #   volumes:
+  #     - .:/app
+
+  #   # Map port 8000 on the host to port 8000 on the container
+  #   ports:
+  #     - 8080:8080
+
+  #   # Specify the .env file path
+  #   env_file:
+  #     - ./.env
+
+  #   # Define a dependency on the "products_db" service, so it starts first
+  #   depends_on:
+  #     - products_db
+
+  products_db:
+
+    # specify the image name of our database
+    # If the image is not found in our local repository
+    # It will be pulled from docker registry that is Docker Hub
+    image: postgres:latest
+
+    # Mount a volume to persist postgreSQL data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    # Specify the .env file path
+    env_file:
+      - ./.env
+    environment:  # Use environment variables for db configuration
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+    ports:
+      - 5432:5432
+
+
+  # pgadmin:
+
+  #   # specify the image with PGADMIN
+  #   # If the image is not found in our local repository
+  #   # It will be pulled from docker registry that is Docker Hub
+  #   image: dpage/pgadmin4:latest
+  #   environment: # Use environment variables for pgadmin configuration
+  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+  #     - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
+  #   ports:
+  #     - 15432:80
+  #   # Specify the .env file path
+  #   env_file:
+  #     - ./.env
+  #   # Mount a volume to persist pgadmin data
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+  #   depends_on:
+  #     - products_db
+
+# Define a volume for persisting postgreSQL data
+volumes:
+  postgres_data:
+  # pgadmin_data:
+
+  
